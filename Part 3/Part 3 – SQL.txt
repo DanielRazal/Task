@@ -1,0 +1,52 @@
+Part 3 – SQL
+
+1.
+
+SELECT
+    A.BANK_ID,
+    A.BRANCH_ID,
+    A.ACCOUNT_NUM,
+    A.CURRENCY,
+    B.AMOUNT
+FROM
+    ACCOUNTS A
+JOIN
+    AMOUNTS B
+ON
+    A.BANK_ID = CAST(SUBSTRING(B.ACCOUNT_REC, 1, CHARINDEX(' ', B.ACCOUNT_REC) - 1) AS INT)
+    AND A.BRANCH_ID = CAST(SUBSTRING(B.ACCOUNT_REC, CHARINDEX(' ', B.ACCOUNT_REC) + 1, CHARINDEX(' ', B.ACCOUNT_REC, CHARINDEX(' ', B.ACCOUNT_REC) + 1) - CHARINDEX(' ', B.ACCOUNT_REC) - 1) AS INT)
+    AND A.ACCOUNT_NUM = CAST(SUBSTRING(B.ACCOUNT_REC, CHARINDEX(' ', B.ACCOUNT_REC, CHARINDEX(' ', B.ACCOUNT_REC) + 1) + 1, LEN(B.ACCOUNT_REC)) AS INT);
+
+
+2.
+
+What makes the query run time take longer:
+
+* The CALC_AMT function, when applied to each row in the SELECT result set, 
+  can be highly inefficient due to complex calculations or queries, 
+  resulting in numerous function calls that significantly slow down the query.
+
+* Using DISTINCT in the SELECT clause may add overhead when the data is already unique.
+
+* If the tables MR_SMT, MR_OP, and TMP_TAB contain a large number of records, fetching and processing them can be time-consuming.
+
+* The subtraction operation on P_BS_DATE (P_BS_DATE - 7) might result in a different data type than DATE,
+  potentially causing implicit data type conversion issues when comparing it to the BUSINESS_DATE column.
+
+* For aggregation tasks (e.g., SUM, MAX, MIN), use SQL aggregate functions with GROUP BY clauses 
+  for group-level calculations instead of individual rows.
+
+
+
+
+Optimization Suggestions:
+
+
+* Whenever possible, perform calculations or logic directly in the query to avoid repeated function calls.
+
+* Consider removing DISTINCT from the SELECT clause if the data is already unique to boost query performance.
+
+* If possible, add conditions to limit the result set to a smaller subset of data that is relevant to the query.
+  Reducing the amount of data processed can significantly improve performance.
+
+* Ensure compatible data types for column comparisons, preventing implicit conversions by matching or explicit conversions as necessary.
