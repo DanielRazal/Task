@@ -1,0 +1,36 @@
+Part 1 – C# Code
+
+1. Default Case Behavior:
+The default case in the switch statement returns true.
+This behavior may not be desired as additional options may be added to the enum in the future.
+Consider throwing an exception or handling the case differently if an unsupported option is provided.
+
+For example:
+
+  default:
+    throw new InvalidOperationException("Unsupported RoomAvailableOption.");
+   
+
+2. 
+
+public User GetUserFromDB(int userId)
+{
+    User user = new User();
+    user.UserId = userId;
+
+    DataRow dr = DataRepository.GetUserById(userId);
+
+    user.FirstName = GetStringOrNull(dr["FirstName"]);
+    user.LastName = GetStringOrNull(dr["LastName"]);
+    user.Address = GetStringOrNull(dr["Address"]);
+    user.CityName = GetStringOrNull(dr["CityName"]);
+    user.CountryName = GetStringOrNull(dr["CountryName"]);
+    user.Email = GetStringOrNull(dr["Email"]);
+
+    return user;
+}
+
+private string GetStringOrNull(object value)
+{
+    return (value != DBNull.Value && value != null) ? value.ToString() : null;
+}
