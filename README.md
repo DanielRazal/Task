@@ -2,7 +2,9 @@
 
 ## Running the Project
 
-Note: **run the project in vs code**/
+Note: **run the project in vs code**
+
+
 To run the **"Task"** project (Part 2), execute the following commands:
 
 ### Server (C#):
