@@ -13,12 +13,16 @@ export class GithubRepositoriesService {
 
   private apiUrl = environment.baseUrl;
   private emailUrl = environment.emailApi;
-  private searchApi = environment.searchApi;
+  private searchUrl = environment.searchApi;
+  private bookmarkUrl = environment.bookmarkApi;
+  private setItem = environment.setItem;
+  private getItems = environment.getItems;
+
 
   constructor(private http: HttpClient) { }
 
   searchAsync(searchKeyword: string): Observable<Rootobject> {
-    const url = `${this.apiUrl}${this.searchApi}${searchKeyword}`;
+    const url = `${this.apiUrl}${this.searchUrl}${searchKeyword}`;
     return this.http.get<Rootobject>(url);
   }
 
@@ -27,22 +31,18 @@ export class GithubRepositoriesService {
     return this.http.post<any>(url, item);
   }
 
-  // setBookmarkItem(item: Item): Observable<any> {
-  //   const url = `https://localhost:7164/api/Bookmark/SetItem`;
-  //   return this.http.post<any>(url, item);
-  // }
-
-  // getBookmarkedItems(): Observable<Array<Item>> {
-  //   const url = `https://localhost:7164/api/Bookmark/GetItems`;
-  //   return this.http.get<Array<Item>>(url);
-  // }
-
   setBookmarkItem(item: Item): Observable<any> {
-    return this.http.post(`https://localhost:7164/api/Bookmark/SetItem`, item);
+    const url = `${this.apiUrl}${this.bookmarkUrl}${this.setItem}`;
+    return this.http.post(url, item);
   }
 
-  // Send a GET request to get bookmarked items
   getBookmarkedItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(`https://localhost:7164/api/Bookmark/GetItems`);
+    const url = `${this.apiUrl}${this.bookmarkUrl}${this.getItems}`;
+    return this.http.get<Item[]>(url);
+  }
+
+  removeBookmarkItem(itemId: number): Observable<Item[]> {
+    const url = `https://localhost:7164/api/Bookmark/RemoveItem/${itemId}`;
+    return this.http.delete<Item[]>(url);
   }
 }

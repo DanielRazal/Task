@@ -44,5 +44,27 @@ namespace Controllers.Controllers
                 return NotFound("No bookmarked items found in the session.");
             }
         }
+
+        [HttpDelete("RemoveItem/{itemId}")]
+        public ActionResult RemoveBookmarkItem(int itemId)
+        {
+            var bookmarkedItems = _bookmarkService.GetBookmarkedItems();
+            var itemToRemove = bookmarkedItems.FirstOrDefault(item => item.Id == itemId);
+
+            if (itemToRemove == null)
+            {
+                return NotFound("Item not found in the session.");
+            }
+
+            _bookmarkService.RemoveBookmarkItem(itemId);
+
+            var response = new
+            {
+                Message = "The item has been removed from the session.",
+                StatusCode = 200
+            };
+
+            return Ok(response);
+        }
     }
 }

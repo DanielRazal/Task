@@ -6,5 +6,6 @@ namespace Part_2___API.Interfaces
     {
         List<Item> GetBookmarkedItems();
         void SetBookmarkItem(Item item);
+        void RemoveBookmarkItem(int itemId);
     }
 }

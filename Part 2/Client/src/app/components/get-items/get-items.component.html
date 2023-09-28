@@ -1,0 +1,27 @@
+<div class="container text-center">
+    <h1 class="text-center">All The Items From Session</h1>
+    <button class="btn btn-light" (click)="navigateToSearchItemsPage()">Move to Get Items Page</button>
+</div>
+
+<div class="container">
+    <div class="row mt-5">
+        <div *ngFor="let item of bookmarkedItems" class="col-md-3 mb-3 custom-item">
+            <div class="list-group-item">
+                <div class="border border-dark p-3 bg-white">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h6>{{ item.name }}</h6>
+                        </div>
+                        <div class="col-md-5">
+                            <img [src]="item.owner.avatar_url" alt="Owner Avatar" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <button class="btn btn-danger mt-2" (click)="removeItem(item.id)">Remove Item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

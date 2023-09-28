@@ -1,40 +1,60 @@
-
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Part_2___API.Interfaces;
 using Part_2___API.Models;
+using System.Text;
 
-namespace Part_2___API.Services
+public class BookmarkService : IBookmarkService
 {
-    public class BookmarkService : IBookmarkService
+    private readonly IDistributedCache _cache;
+
+    public BookmarkService(IDistributedCache cache)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        _cache = cache ?? throw new ArgumentNullException(nameof(cache));
+    }
 
-        public BookmarkService(IHttpContextAccessor httpContextAccessor)
+    public List<Item> GetBookmarkedItems()
+    {
+        var itemJson = _cache.GetString("BookmarkedItems");
+
+        if (!string.IsNullOrEmpty(itemJson))
         {
-            _httpContextAccessor = httpContextAccessor;
+            return JsonConvert.DeserializeObject<List<Item>>(itemJson)!;
         }
-
-        public List<Item> GetBookmarkedItems()
+        else
         {
-            var itemJson = _httpContextAccessor.HttpContext!.Session.GetString("BookmarkedItems");
-
-            if (!string.IsNullOrEmpty(itemJson))
-            {
-                return JsonConvert.DeserializeObject<List<Item>>(itemJson)!;
-            }
-            else
-            {
-                return new List<Item>();
-            }
+            return new List<Item>();
         }
+    }
 
-        public void SetBookmarkItem(Item item)
+    public void SetBookmarkItem(Item item)
+    {
+        var bookmarkedItems = GetBookmarkedItems();
+        bookmarkedItems.Add(item);
+
+        string updatedItemsJson = JsonConvert.SerializeObject(bookmarkedItems);
+
+        _cache.SetString("BookmarkedItems", updatedItemsJson, new DistributedCacheEntryOptions
         {
-            var bookmarkedItems = GetBookmarkedItems();
-            bookmarkedItems.Add(item);
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+        });
+    }
+
+    public void RemoveBookmarkItem(int itemId)
+    {
+        var bookmarkedItems = GetBookmarkedItems();
+        var itemToRemove = bookmarkedItems.FirstOrDefault(item => item.Id == itemId);
+
+        if (itemToRemove != null)
+        {
+            bookmarkedItems.Remove(itemToRemove);
 
             string updatedItemsJson = JsonConvert.SerializeObject(bookmarkedItems);
-            _httpContextAccessor.HttpContext!.Session.SetString("BookmarkedItems", updatedItemsJson);
+
+            _cache.SetString("BookmarkedItems", updatedItemsJson, new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+            });
         }
     }
 
