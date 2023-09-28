@@ -1,10 +1,7 @@
 using Part_2___API.Interfaces;
 using Part_2___API.Services;
-// global using dotenv.net;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// DotEnv.Load();
 
 var configuration = builder.Configuration;
 configuration.AddUserSecrets<Program>();
@@ -12,19 +9,36 @@ configuration.AddUserSecrets<Program>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IGitHubApiService, GitHubApiService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IGitHubService, GitHubService>();
+builder.Services.AddScoped<IBookmarkService, BookmarkService>();
+
+builder.Services.AddHttpContextAccessor();
+
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 builder.Services.AddHttpClient();
+
+var angularCors = "http://localhost:4200";
 
 builder.Services.AddCors(setup =>
 {
     setup.AddPolicy("CorsPolicy", options =>
     {
         options.AllowAnyMethod().AllowAnyHeader()
-        .AllowAnyOrigin().WithOrigins("http://localhost:4200");
+        .AllowAnyOrigin().WithOrigins(angularCors);
     });
 });
+
 
 var app = builder.Build();
 
@@ -38,8 +52,9 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
-
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllers();
 

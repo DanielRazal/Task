@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Part_2___API.Interfaces;
 using Part_2___API.Models;
 
 namespace Controllers.Controllers
@@ -7,11 +8,11 @@ namespace Controllers.Controllers
     [ApiController]
     public class SearchController : ControllerBase
     {
-        private readonly HttpClient _httpClient;
+        private readonly IGitHubService _gitHubService;
 
-        public SearchController(HttpClient httpClient)
+        public SearchController(IGitHubService gitHubService)
         {
-            _httpClient = httpClient;
+            _gitHubService = gitHubService;
         }
 
         [HttpGet]
@@ -19,22 +20,14 @@ namespace Controllers.Controllers
         {
             try
             {
-                string apiUrl = $"https://api.github.com/search/repositories?q={searchKeyword}";
+                var response = await _gitHubService.SearchRepositoriesAsync(searchKeyword);
 
-                _httpClient.DefaultRequestHeaders.Add("User-Agent", "YourApp/1.0");
-
-                var httpResponse = await _httpClient.GetAsync(apiUrl);
-
-                if (httpResponse.IsSuccessStatusCode)
+                if (response == null || response.Items == null || response.Items.Length == 0)
                 {
-                    var response = await httpResponse.Content.ReadFromJsonAsync<Rootobject>();
+                    return NotFound("No search results found.");
+                }
 
-                    return Ok(response);
-                }
-                else
-                {
-                    return StatusCode((int)httpResponse.StatusCode, "GitHub API request failed.");
-                }
+                return Ok(response);
             }
             catch (HttpRequestException)
             {

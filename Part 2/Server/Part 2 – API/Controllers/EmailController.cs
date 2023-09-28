@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Part_2___API.Interfaces;
 using Part_2___API.Models;
 
@@ -18,14 +17,23 @@ namespace Controllers.Controllers
         [HttpPost]
         public async Task<ActionResult> SendEmail(string email, Item item)
         {
-            // Serialize the object to a JSON string
-            string jsonContent = JsonConvert.SerializeObject(item);
+            string subject = "The details about the item";
 
-            var x = await _emailSender.SendEmail(email, "Subject", jsonContent);
+            string content = $@"
+            <p>Name: {item.Name}</p>
+            <img src='{item.Owner.Avatar_url}' alt='Owner Avatar' width='100' height='100'>";
 
-            return Ok(new { Message = "The details have been successfully sent to your email", StatusCode = 200, x });
+
+            await _emailSender.SendEmail(email, subject, content);
+
+            var response = new
+            {
+                Message = "The details have been successfully sent to your email",
+                StatusCode = 200
+            };
+
+            return Ok(response);
         }
 
     }
-
 }

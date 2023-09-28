@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\97250\\Desktop\\Part 2\\Server\\Part 2 – API\\Part 2 – API.csproj": {}
+    "C:\\Users\\97250\\Desktop\\Task\\Part 2\\Server\\Part 2 – API\\Part 2 – API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\97250\\Desktop\\Part 2\\Server\\Part 2 – API\\Part 2 – API.csproj": {
+    "C:\\Users\\97250\\Desktop\\Task\\Part 2\\Server\\Part 2 – API\\Part 2 – API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\97250\\Desktop\\Part 2\\Server\\Part 2 – API\\Part 2 – API.csproj",
+        "projectUniqueName": "C:\\Users\\97250\\Desktop\\Task\\Part 2\\Server\\Part 2 – API\\Part 2 – API.csproj",
         "projectName": "Part 2 – API",
-        "projectPath": "C:\\Users\\97250\\Desktop\\Part 2\\Server\\Part 2 – API\\Part 2 – API.csproj",
+        "projectPath": "C:\\Users\\97250\\Desktop\\Task\\Part 2\\Server\\Part 2 – API\\Part 2 – API.csproj",
         "packagesPath": "C:\\Users\\97250\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\97250\\Desktop\\Part 2\\Server\\Part 2 – API\\obj\\",
+        "outputPath": "C:\\Users\\97250\\Desktop\\Task\\Part 2\\Server\\Part 2 – API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -46,7 +46,7 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Cors": {
+            "Microsoft.AspNetCore.Session": {
               "target": "Package",
               "version": "[2.2.0, )"
             },
