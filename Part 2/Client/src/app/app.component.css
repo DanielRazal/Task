@@ -1,3 +1,35 @@
-/* .btn-primary {
-    margin-top: 1%;
-} */
+.btn-primary {
+    margin-left: -15px;
+}
+
+.custom-item {
+    width: calc(25% - 1rem);
+}
+
+@media (max-width: 1200px) {
+    .custom-item {
+        width: calc(33.333% - 1rem);
+    }
+}
+
+@media (max-width: 992px) {
+    .custom-item {
+        width: calc(50% - 1rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-item {
+        width: 50%;
+        margin-bottom: 1rem;
+    }
+
+    .custom-item .btn-group {
+        display: flex;
+        justify-content: center;
+    }
+
+    .custom-item .btn-group button {
+        margin: 0.25rem;
+    }
+}
