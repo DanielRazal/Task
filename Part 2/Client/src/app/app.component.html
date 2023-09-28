@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="input-group mt-5">
+        <input type="text" class="form-control" [(ngModel)]="searchKeyword">
+        <button class="input-group-text pointer" (click)="performSearch()">Search</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div *ngIf="searchResults">
+    <h2>Search Results:</h2>
+    <div class="row">
+      <div *ngFor="let item of searchResults.items" class="col-md-3 mb-3">
+        <div class="list-group-item">
+          <div class="border border-dark p-3 bg-white">
+            <div class="row">
+              <div class="col-md-8">
+                <h6>{{ item.name }}</h6>
+                <div class="btn-group" role="group" style="margin-right: 10px;">
+                  <button class="btn btn-success" (click)="sendDetailsToEmail(item)">Send Email</button>
+                  <button class="btn btn-primary">Bookmark</button>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <img [src]="item.owner.avatar_url" alt="Owner Avatar" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+  <div *ngIf="searchResults">
+    <h2>Search Results:</h2>
+    <div class="row">
+      <div *ngFor="let item of searchResults.items" class="col-md-3 mb-3">
+        <div class="list-group-item">
+          <div class="border border-dark p-3 bg-white">
+            <div class="row">
+              <div class="col-md-8">
+                <h6>{{ item.name }}</h6>
+                <div class="btn-group" role="group" style="margin-right: 10px;">
+                  <button class="btn btn-success" (click)="sendDetailsToEmail(item)">Send Email</button>
+                  <button class="btn btn-primary" (click)="setBookmarkItem(item)">Bookmark</button>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <img [src]="item.owner.avatar_url" alt="Owner Avatar" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!searchResults">
+    <div *ngIf="errorMessage">
+      <h1>Error: {{ errorMessage }}</h1>
+    </div>
+  </div>
