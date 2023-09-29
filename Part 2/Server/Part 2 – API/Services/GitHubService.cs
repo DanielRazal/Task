@@ -17,9 +17,9 @@ namespace Part_2___API.Services
         {
             try
             {
-                string apiUrl = $"https://api.github.com/search/repositories?q={searchKeyword}";
+                string apiUrl = $"https://api.github.com/search/repositories?q={searchKeyword}+in:name";
 
-                _httpClient.DefaultRequestHeaders.Add("User-Agent", "YourApp/1.0");
+                _httpClient.DefaultRequestHeaders.Add("User-Agent", "Task/1.0");
 
                 var httpResponse = await _httpClient.GetAsync(apiUrl);
 

@@ -17,6 +17,7 @@ export class GithubRepositoriesService {
   private bookmarkUrl = environment.bookmarkApi;
   private setItem = environment.setItem;
   private getItems = environment.getItems;
+  private removeItem = environment.removeItem;
 
 
   constructor(private http: HttpClient) { }
@@ -42,7 +43,7 @@ export class GithubRepositoriesService {
   }
 
   removeBookmarkItem(itemId: number): Observable<Item[]> {
-    const url = `https://localhost:7164/api/Bookmark/RemoveItem/${itemId}`;
+    const url = `${this.apiUrl}${this.bookmarkUrl}${this.removeItem}${itemId}`;
     return this.http.delete<Item[]>(url);
   }
 }

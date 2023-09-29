@@ -5,5 +5,6 @@ export const environment = {
     searchApi: '/api/Search?searchKeyword=',
     bookmarkApi: '/api/Bookmark',
     setItem: '/SetItem',
-    getItems: '/GetItems'
+    getItems: '/GetItems',
+    removeItem: '/RemoveItem/'
 };
